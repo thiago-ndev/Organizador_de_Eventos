@@ -11,11 +11,17 @@ class Evento(models.Model):
     data_termino = models.DateTimeField()
     carga_horaria = models.IntegerField()
     logo = models.ImageField(upload_to="logos")
-
     #paleta de cores
     cor_principal = models.CharField(max_length=7)
     cor_secundaria = models.CharField(max_length=7)
     cor_fundo = models.CharField(max_length=7)
 
+    participantes = models.ManyToManyField(User, related_name="evento_participante", null=True, blank=True)
     def __str__(self) -> str:
         return self.nome
+    
+    
+class Certificado(models.Model):
+    certificado = models.ImageField(upload_to="certificados")
+    participante = models.ForeignKey(User, on_delete=models.DO_NOTHING)
+    evento = models.ForeignKey(Evento, on_delete=models.DO_NOTHING)
